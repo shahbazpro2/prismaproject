@@ -19,6 +19,7 @@ const TextField = ({ name, label, type, multiline, rows, ...rest }: InputProps) 
                 <input
                     type={type || "text"}
                     {...rest}
+                    name={name}
                     className={style}
                 />}
         </div>
