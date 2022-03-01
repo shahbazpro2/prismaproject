@@ -12,7 +12,9 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="container mx-auto py-20">
-        <UserInput />
+        <div className="grid grid-cols-2 gap-5">
+          <UserInput />
+        </div>
       </div>
 
     </div>
