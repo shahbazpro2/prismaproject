@@ -18,3 +18,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+h1{
+  @apply text-5xl font-medium;
+}
+
+h2{
+  @apply text-3xl font-medium;
+}
