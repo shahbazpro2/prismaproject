@@ -2,7 +2,7 @@ import React from 'react'
 import Button from './common/buttons/Button'
 import TextField from './common/textFields/TextField'
 
-const UserInput = () => {
+const CreateUser = () => {
     return (
         <div>
             <h1 className='mb-10'>Create User</h1>
@@ -10,11 +10,13 @@ const UserInput = () => {
                 <TextField
                     label="Name"
                     name="name"
+                    required={true}
                 />
                 <TextField
                     label="Email"
                     type="email"
                     name="email"
+                    required={true}
                 />
 
                 <Button type="submit">Create</Button>
@@ -23,4 +25,4 @@ const UserInput = () => {
     )
 }
 
-export default UserInput
+export default CreateUser
