@@ -7,7 +7,7 @@ import { GET_USERS } from '../graphql/query/GetUsers'
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { GET_TAGS } from '../graphql/query/GetTags'
 import { CREATEANIMATION } from '../graphql/mutation/CreateAnimation'
-import { GET_ANIMATIONS } from '../graphql/query/getAnimatons'
+import { GET_ANIMATIONS } from '../graphql/query/GetAnimatons'
 
 const AddAnimation = () => {
     const [getUsers, { data: queryData, loading: queryLoading }] = useLazyQuery(GET_USERS)

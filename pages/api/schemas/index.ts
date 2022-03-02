@@ -39,6 +39,7 @@ export const typeDefs = gql`
 
     type  Query {
         getAnimations: [Animation]
+        getAnimationsByTag(name: String!): [Animation]
     }
 
     type Mutation{

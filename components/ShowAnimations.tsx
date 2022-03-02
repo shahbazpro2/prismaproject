@@ -1,26 +1,52 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import TextField from './common/textFields/TextField';
 import { useLazyQuery } from '@apollo/client';
-import { GET_ANIMATIONS } from '../graphql/query/getAnimatons';
+import { GET_ANIMATIONS } from '../graphql/query/GetAnimatons';
+import { GET_ANIMATIONS_BY_TAG } from '../graphql/query/getAnimationsByTag';
 
 const ShowAnimations = () => {
     const [getAnimations, { data, loading }] = useLazyQuery(GET_ANIMATIONS)
+    const [getAnimationsByTag, { data: searchData, loading: searchLoading }] = useLazyQuery(GET_ANIMATIONS_BY_TAG)
+    const [animations, setAnimations] = useState([])
+    const [search, setSearch] = useState('')
 
     useEffect(() => {
         getAnimations()
     }, [])
 
-    console.log('data', data)
+    useEffect(() => {
+        if (searchData?.getAnimationsByTag?.length || search) {
+            setAnimations(searchData?.getAnimationsByTag || [])
+        } else if (data?.getAnimations?.length) {
+            setAnimations(data?.getAnimations || [])
+        }
+    }, [data, searchData])
+
+    useEffect(() => {
+        const debounce = setTimeout(() => {
+            if (search) {
+                getAnimationsByTag({ variables: { name: search } })
+            } else {
+                setAnimations(data?.getAnimations)
+            }
+        }, 500)
+
+        return (() => {
+            clearTimeout(debounce)
+        })
+
+    }, [search])
+
 
     return (
         <div>
             <div className="py-10">
-                <TextField label='Search' name="search" />
+                <TextField label='Search by tag' name="search" onChange={(e) => setSearch(e.target.value)} />
             </div>
             <div className='grid grid-cols-2 gap-3'>
-                {data?.getAnimations?.map((animation: any) => (
+                {animations?.map((animation: any) => (
                     <div key={animation.id} className="border min-h-[300px] px-5 py-3">
                         <Player
                             autoplay

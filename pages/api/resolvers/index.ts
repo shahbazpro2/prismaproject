@@ -14,6 +14,17 @@ export const resolvers = {
                 user: true,
                 tag: true
             }
+        }),
+        getAnimationsByTag: async (_: any, args: { name: string }) => await prisma.animation.findMany({
+            where: {
+                tag: {
+                    name: args.name
+                }
+            },
+            include: {
+                user: true,
+                tag: true
+            }
         })
     },
     Mutation: {
