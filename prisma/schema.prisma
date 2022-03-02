@@ -15,3 +15,8 @@ model User {
   name  String
   email String @unique
 }
+
+model Tag {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+}

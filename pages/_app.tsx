@@ -10,15 +10,17 @@ import { onError } from '@apollo/client/link/error';
 
 function MyApp({ Component, pageProps }: AppProps) {
 
-  const errorLink = onError(({ graphQLErrors, networkError, response }) => {
+  const errorLink = onError(({ graphQLErrors, networkError, operation }) => {
+    const def: any = operation.query.definitions[0]
     let err: any = []
     if (graphQLErrors) {
-      graphQLErrors.forEach(({ message, locations, path }) => {
+      graphQLErrors.forEach(({ message }) => {
         err.push(`${message}`)
       }
       );
     }
-    if (networkError) err.push(`Response not successful`)
+    if (networkError) err.push(`Network Error: Response not successful`)
+    if (def?.operation === 'mutation') alert(err.toString())
     console.log(err, graphQLErrors)
   });
 

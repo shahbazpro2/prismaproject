@@ -14,6 +14,15 @@ export const typeDefs = gql`
 
     type Mutation {
     createUser(name: String!, email: String!): User
-  }
+    }
+
+    type Tags{
+        id:ID,
+        name:String
+    }
+
+    type  Query {
+        getTags: [Tags]
+    }
     
     `

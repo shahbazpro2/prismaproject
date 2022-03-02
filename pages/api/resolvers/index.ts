@@ -1,12 +1,14 @@
-import { Prisma } from "@prisma/client";
-import prisma from "../../../lib/prisma";
+import { Prisma, PrismaClient } from "@prisma/client";
+
+const prisma = new PrismaClient()
 
 export const resolvers = {
     Query: {
         getUsers: async () => await prisma.user.findMany(),
         getUser: async (_: any, args: { name: string }) => await prisma.user.findFirst({
             where: { name: args.name }
-        })
+        }),
+        getTags: async () => await prisma.tag.findMany()
     },
     Mutation: {
         createUser: async (_: any, args: { name: string, email: string }) => {

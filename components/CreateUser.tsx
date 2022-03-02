@@ -1,25 +1,31 @@
-import { useMutation } from '@apollo/client'
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useLazyQuery, useMutation } from '@apollo/client'
 import React, { ChangeEvent, SyntheticEvent, useState } from 'react'
 import { CREATEUSER } from '../graphql/mutation/CreateUser'
+import { GET_USERS } from '../graphql/query/GetUsers'
 import Button from './common/buttons/Button'
 import TextField from './common/textFields/TextField'
 
 const CreateUser = () => {
-    const [createUser, { data, loading }] = useMutation(CREATEUSER, { onError: () => null })
+    const [createUser, { data, loading }] = useMutation(CREATEUSER, { refetchQueries: [GET_USERS], onError: () => null })
     const [state, setState] = useState({ name: '', email: '' })
+
+
+
 
     const onChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target
         setState({ ...state, [name]: value })
     }
 
-    const onSubmit = (e: SyntheticEvent) => {
+    const onSubmit = async (e: SyntheticEvent) => {
         e.preventDefault()
-        createUser({ variables: { ...state } })
+        const res = await createUser({ variables: { ...state } })
+        if (!res.errors) {
+            setState({ name: '', email: '' })
+            alert('User created successfully')
+        }
     }
-
-    console.log('data', data, loading)
-
     return (
         <div>
             <h1 className='mb-10'>Create User</h1>
@@ -27,6 +33,7 @@ const CreateUser = () => {
                 <TextField
                     label="Name"
                     name="name"
+                    value={state.name}
                     required={true}
                     onChange={onChange}
                 />
@@ -34,6 +41,7 @@ const CreateUser = () => {
                     label="Email"
                     type="email"
                     name="email"
+                    value={state.email}
                     required={true}
                     onChange={onChange}
                 />
