@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import AddAnimation from '../components/AddAnimation'
 import CreateUser from '../components/CreateUser'
+import ShowAnimations from '../components/ShowAnimations'
 
 const Home: NextPage = () => {
   return (
@@ -13,10 +14,13 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="container mx-auto py-20">
-        <div className="grid grid-cols-2 gap-5">
+        <div className="grid grid-cols-2 gap-10">
           <div className='space-y-10'>
             <CreateUser />
             <AddAnimation />
+          </div>
+          <div className=''>
+            <ShowAnimations />
           </div>
         </div>
       </div>

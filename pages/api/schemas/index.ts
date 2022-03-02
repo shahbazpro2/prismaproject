@@ -26,6 +26,7 @@ export const typeDefs = gql`
     }
 
     type Animation{
+        id:ID,
         userId: Int, 
         user:User,
         title: String!,

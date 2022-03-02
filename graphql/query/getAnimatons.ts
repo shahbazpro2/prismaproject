@@ -4,12 +4,13 @@ export const GET_ANIMATIONS = gql`
   query getAnimations {
     getAnimations {
       id
-      userId{
+      user{
       name
       }
       title
       path
-      tagId{
+      description
+      tag{
       id
       name
       }
