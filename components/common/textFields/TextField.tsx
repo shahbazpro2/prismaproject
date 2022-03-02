@@ -15,7 +15,7 @@ const TextField = ({ name, label, type, multiline, rows, ...rest }: InputProps) 
             <label htmlFor={name} className="block text-sm font-medium text-gray-700">
                 {label}
             </label>
-            {multiline ? <textarea className={style} rows={rows}  {...rest} /> :
+            {multiline ? <textarea className={style} rows={rows} name={name}  {...rest} /> :
                 <input
                     type={type || "text"}
                     {...rest}

@@ -24,5 +24,24 @@ export const typeDefs = gql`
     type  Query {
         getTags: [Tags]
     }
+
+    type Animation{
+        userId: Int, 
+        user:User,
+        title: String!,
+        description:String!,
+        path:String!,
+        tagId:Int,
+        tag:Tags
+    }
+
+
+    type  Query {
+        getAnimations: [Animation]
+    }
+
+    type Mutation{
+        createAnimation(userId: Int!, title: String!,description:String!,path:String!,tagId:Int!):Animation
+    }
     
     `
