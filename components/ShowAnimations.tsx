@@ -4,7 +4,7 @@ import { Player, Controls } from '@lottiefiles/react-lottie-player';
 import TextField from './common/textFields/TextField';
 import { useLazyQuery } from '@apollo/client';
 import { GET_ANIMATIONS } from '../graphql/query/GetAnimatons';
-import { GET_ANIMATIONS_BY_TAG } from '../graphql/query/getAnimationsByTag';
+import { GET_ANIMATIONS_BY_TAG } from '../graphql/query/GetAnimationsByTag';
 
 const ShowAnimations = () => {
     const [getAnimations, { data, loading }] = useLazyQuery(GET_ANIMATIONS)
