@@ -7,13 +7,16 @@ import { GET_ANIMATIONS_BY_TAG } from '../graphql/query/GetAnimationsByTag';
 import Button from './common/buttons/Button';
 import { GET_ANIMATIONS } from '../graphql/query/GetAnimatons';
 import { useRouter } from 'next/router';
+import Modal from './common/Modal';
+import AddAnimation from './AddAnimation';
 
-const ShowAnimations = () => {
+const UserAnimations = () => {
     const [getAnimations, { data, loading }] = useLazyQuery(GET_ANIMATIONS)
     const [getAnimationsByTag, { data: searchData, loading: searchLoading }] = useLazyQuery(GET_ANIMATIONS_BY_TAG)
     const [animations, setAnimations] = useState([])
     const [search, setSearch] = useState('')
     const router = useRouter()
+    const [open, setOpen] = useState(false)
 
     useEffect(() => {
         getAnimations()
@@ -42,13 +45,17 @@ const ShowAnimations = () => {
 
     }, [search])
 
+    const onSubmit = () => {
+
+    }
+
 
     return (
         <div>
             <div className="flex justify-between items-end">
                 <TextField label='Search by tag' name="search" onChange={(e) => setSearch(e.target.value)} />
                 <div className="w-[200px]">
-                    <Button onClick={() => router.push('/users')}>Show Users</Button>
+                    <Button onClick={() => setOpen(true)}>Upload a new lottie</Button>
                 </div>
             </div>
             <div className='grid grid-cols-2 gap-3'>
@@ -87,8 +94,11 @@ const ShowAnimations = () => {
                 ))}
 
             </div>
+            <Modal open={open} setOpen={setOpen} onSubmit={onSubmit}>
+                <AddAnimation />
+            </Modal>
         </div>
     )
 }
 
-export default ShowAnimations
+export default UserAnimations

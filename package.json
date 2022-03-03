@@ -10,6 +10,8 @@
   },
   "dependencies": {
     "@apollo/client": "^3.5.10",
+    "@headlessui/react": "^1.5.0",
+    "@heroicons/react": "^1.0.6",
     "@lottiefiles/react-lottie-player": "^3.4.2",
     "@prisma/client": "^3.10.0",
     "apollo-server-micro": "^3.6.3",
@@ -17,7 +19,9 @@
     "micro-cors": "^0.1.1",
     "next": "12.1.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-dropzone": "^12.0.4",
+    "react-multi-select-component": "^4.2.3"
   },
   "devDependencies": {
     "@types/micro-cors": "^0.1.2",
