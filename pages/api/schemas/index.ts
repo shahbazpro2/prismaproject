@@ -32,18 +32,13 @@ export const typeDefs = gql`
         title: String!,
         description:String!,
         path:String!,
-        tagId:Int,
-        tag:Tags
+        tags:[Tags]
     }
 
 
     type  Query {
         getAnimations: [Animation]
         getAnimationsByTag(name: String!): [Animation]
-    }
-
-    type Mutation{
-        createAnimation(userId: Int!, title: String!,description:String!,path:String!,tagId:Int!):Animation
     }
     
     `

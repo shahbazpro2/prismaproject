@@ -10,7 +10,7 @@ export const GET_ANIMATIONS = gql`
       title
       path
       description
-      tag{
+      tags{
       id
       name
       }

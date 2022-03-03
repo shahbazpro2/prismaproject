@@ -35,7 +35,7 @@ const UserAnimations = () => {
             if (search) {
                 getAnimationsByTag({ variables: { name: search } })
             } else {
-                setAnimations(data?.getAnimations)
+                if (data?.getAnimations?.length) setAnimations(data?.getAnimations)
             }
         }, 500)
 
@@ -52,13 +52,13 @@ const UserAnimations = () => {
 
     return (
         <div>
-            <div className="flex justify-between items-end">
+            <div className="flex justify-between items-end mb-7">
                 <TextField label='Search by tag' name="search" onChange={(e) => setSearch(e.target.value)} />
                 <div className="w-[200px]">
                     <Button onClick={() => setOpen(true)}>Upload a new lottie</Button>
                 </div>
             </div>
-            <div className='grid grid-cols-2 gap-3'>
+            <div className='grid grid-cols-4 gap-3'>
                 {animations?.map((animation: any) => (
                     <div key={animation.id} className="border min-h-[300px] px-5 py-3">
                         <Player

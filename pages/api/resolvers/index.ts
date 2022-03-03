@@ -12,18 +12,18 @@ export const resolvers = {
         getAnimations: async () => await prisma.animation.findMany({
             include: {
                 user: true,
-                tag: true
+                tags: true
             }
         }),
         getAnimationsByTag: async (_: any, args: { name: string }) => await prisma.animation.findMany({
             where: {
-                tag: {
+                tags: {
                     name: args.name
                 }
             },
             include: {
                 user: true,
-                tag: true
+                tags: true
             }
         })
     },
@@ -44,7 +44,7 @@ export const resolvers = {
                 throw error
             }
         },
-        createAnimation: async (_: any, args: { userId: number, title: string, description: string, path: string, tagId: number }) => {
+        /* createAnimation: async (_: any, args: { userId: [number], title: string, description: string, path: string, tags: [{ id: number, name: string }] }) => {
             try {
                 const res = await prisma.animation.create({ data: { ...args } })
                 if (res) return res
@@ -59,6 +59,6 @@ export const resolvers = {
                 }
                 throw error
             }
-        }
+        } */
     }
 }
