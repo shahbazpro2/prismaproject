@@ -18,17 +18,26 @@ model User {
 }
 
 model Tag {
-  id         Int         @id @default(autoincrement())
-  name       String      @unique
-  Animations Animation[] @relation(references: [id])
+  id             Int              @id @default(autoincrement())
+  name           String           @unique
+  TagOnAnimation TagOnAnimation[]
 }
 
 model Animation {
-  id          Int    @id @default(autoincrement())
-  title       String @unique
-  description String
-  path        String
-  user        User   @relation(fields: [userId], references: [id])
-  userId      Int
-  tags        Tag[]  @relation(references: [id])
+  id             Int              @id @default(autoincrement())
+  title          String           @unique
+  description    String
+  path           String
+  user           User             @relation(fields: [userId], references: [id])
+  userId         Int
+  TagOnAnimation TagOnAnimation[]
+}
+
+model TagOnAnimation {
+  animation   Animation @relation(fields: [animationId], references: [id])
+  tag         Tag       @relation(fields: [tagId], references: [id])
+  animationId Int
+  tagId       Int
+
+  @@id([animationId, tagId])
 }

@@ -26,19 +26,22 @@ export const typeDefs = gql`
     }
 
     type Animation{
-        id:ID,
-        userId: Int, 
+        id:ID
         user:User,
         title: String!,
         description:String!,
         path:String!,
-        tags:[Tags]
+    }
+
+    type TagOnAnimation{
+        animation:Animation,
+        tag:Tags
     }
 
 
     type  Query {
-        getAnimations: [Animation]
-        getAnimationsByTag(name: String!): [Animation]
+        getAnimations: [TagOnAnimation]
+        getAnimationsByTag(name: String!): [TagOnAnimation]
     }
     
     `

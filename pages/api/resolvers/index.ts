@@ -9,21 +9,29 @@ export const resolvers = {
             where: { name: args.name }
         }),
         getTags: async () => await prisma.tag.findMany(),
-        getAnimations: async () => await prisma.animation.findMany({
+        getAnimations: async () => await prisma.tagOnAnimation.findMany({
             include: {
-                user: true,
-                tags: true
+                animation: {
+                    include: {
+                        user: true
+                    }
+                },
+                tag: true
             }
         }),
-        getAnimationsByTag: async (_: any, args: { name: string }) => await prisma.animation.findMany({
+        getAnimationsByTag: async (_: any, args: { name: string }) => await prisma.tagOnAnimation.findMany({
             where: {
-                tags: {
+                tag: {
                     name: args.name
                 }
             },
             include: {
-                user: true,
-                tags: true
+                animation: {
+                    include: {
+                        user: true
+                    }
+                },
+                tag: true
             }
         })
     },

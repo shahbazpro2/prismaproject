@@ -28,13 +28,19 @@ apiRoute.post(async (req: NextApiRequest & { files: any }, res: NextApiResponse)
     const prisma = new PrismaClient()
 
     try {
-        const prisRes = await prisma.animation.create({ data: { tags: { create: formatedTags }, description, title, path: req.files[0].originalname, userId: 1 } })
-        console.log('prisRes', prisRes)
+        const prisRes = await prisma.animation.create({ data: { description, title, path: req.files[0].originalname, userId: 1 } })
+        if (prisRes) {
+            const arrTag = formatedTags.map((tg: Number) => { return { animationId: prisRes.id, tagId: tg } })
+            const addTag = await prisma.tagOnAnimation.createMany({ data: arrTag })
+        }
+
     } catch (error) {
         console.log('error', error)
-    }
+        return res.status(500).json({ data: 'Something went wrong' });
 
-    res.status(200).json({ data: 'success' });
+    }
+    return res.status(201).json({ data: 'Animation created successfully' });
+
 });
 
 export default apiRoute;

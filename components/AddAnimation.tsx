@@ -6,21 +6,21 @@ import { useDropzone } from 'react-dropzone';
 import TextField from './common/textFields/TextField'
 import { MultiSelect } from "react-multi-select-component";
 import { GET_USERS } from '../graphql/query/GetUsers'
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery } from '@apollo/client'
 import { GET_TAGS } from '../graphql/query/GetTags'
-import { CREATEANIMATION } from '../graphql/mutation/CreateAnimation'
-import { GET_ANIMATIONS } from '../graphql/query/GetAnimatons'
 import axios from 'axios'
 
-const AddAnimation = () => {
+interface Props {
+    setOpen: () => void,
+    refetch: any
+}
+
+const AddAnimation = ({ setOpen, refetch }: Props) => {
     const [getUsers, { data: queryData, loading: queryLoading }] = useLazyQuery(GET_USERS)
     const [getTags, { data: tagsData, loading: tagsLoading }] = useLazyQuery(GET_TAGS)
-    const [createAnimation, { data, loading }] = useMutation(CREATEANIMATION, { refetchQueries: [GET_ANIMATIONS], onError: () => null })
     const [tags, setTags] = useState([]);
     const [tagOptions, setTagOptions] = useState([])
-    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ multiple: false, accept: '.json' });
-
-    console.log('acc', JSON.stringify(acceptedFiles[0]), acceptedFiles[0])
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ multiple: false, accept: '.json', maxFiles: 1 });
 
     const [state, setState] = useState({
         userId: '',
@@ -49,7 +49,7 @@ const AddAnimation = () => {
         e.preventDefault()
         if (!tags.length || !acceptedFiles.length) return alert("Tags or file are required")
 
-        const formatedTags = tags.map((tg: any) => { return { id: Number(tg.value), name: tg.label } })
+        const formatedTags = tags.map((tg: any) => Number(tg.value))
 
         const formData = new FormData()
 
@@ -62,6 +62,11 @@ const AddAnimation = () => {
         axios.post("/api/animation", formData)
             .then(res => {
                 console.log('res', res.data)
+                if (refetch)
+                    refetch()
+                alert('Animation added successfully')
+                setOpen()
+
             })
             .catch(err => console.log(err))
 
@@ -102,20 +107,6 @@ const AddAnimation = () => {
                     <input {...getInputProps()} />
                     <p className="subtitle-clr px-3">Drag 'n' drop file here, or click to select file</p>
                 </div>
-                {/* <TextField
-                    label="File Path"
-                    name="path"
-                    required={true}
-                    value={state.path}
-                    onChange={onChange}
-                /> */}
-
-                {/*  <SelectField label="Tags" name="tagId" value={state.tagId} required={true} onChange={onChange}>
-                    <option value={''}>Select tag</option>
-                    {tagsData?.getTags?.map(({ id, name }: { id: string, name: string }) => (
-                        <option key={id} value={id}>{name}</option>
-                    ))}
-                </SelectField> */}
 
                 <Button type="submit">Submit</Button>
 

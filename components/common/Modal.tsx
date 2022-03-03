@@ -1,15 +1,13 @@
-import { Dispatch, Fragment, ReactNode, SetStateAction, useRef, useState } from 'react'
+import { Dispatch, Fragment, ReactNode, SetStateAction, useRef } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { ExclamationIcon } from '@heroicons/react/outline'
 
 interface Props {
     open: boolean,
     children: ReactNode,
-    setOpen: Dispatch<SetStateAction<boolean>>,
-    onSubmit: () => void
+    setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-const Modal = ({ open, setOpen, onSubmit, children }: Props) => {
+const Modal = ({ open, setOpen, children }: Props) => {
 
     const cancelButtonRef = useRef(null)
     return (

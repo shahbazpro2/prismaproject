@@ -27,9 +27,12 @@ CREATE TABLE "Animation" (
 );
 
 -- CreateTable
-CREATE TABLE "_AnimationToTag" (
-    "A" INTEGER NOT NULL,
-    "B" INTEGER NOT NULL
+CREATE TABLE "TagOnAnimation" (
+    "id" SERIAL NOT NULL,
+    "animationId" INTEGER,
+    "tagId" INTEGER,
+
+    CONSTRAINT "TagOnAnimation_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -41,17 +44,11 @@ CREATE UNIQUE INDEX "Tag_name_key" ON "Tag"("name");
 -- CreateIndex
 CREATE UNIQUE INDEX "Animation_title_key" ON "Animation"("title");
 
--- CreateIndex
-CREATE UNIQUE INDEX "_AnimationToTag_AB_unique" ON "_AnimationToTag"("A", "B");
-
--- CreateIndex
-CREATE INDEX "_AnimationToTag_B_index" ON "_AnimationToTag"("B");
-
 -- AddForeignKey
 ALTER TABLE "Animation" ADD CONSTRAINT "Animation_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AnimationToTag" ADD FOREIGN KEY ("A") REFERENCES "Animation"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "TagOnAnimation" ADD CONSTRAINT "TagOnAnimation_tagId_fkey" FOREIGN KEY ("tagId") REFERENCES "Tag"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "_AnimationToTag" ADD FOREIGN KEY ("B") REFERENCES "Tag"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE "TagOnAnimation" ADD CONSTRAINT "TagOnAnimation_animationId_fkey" FOREIGN KEY ("animationId") REFERENCES "Animation"("id") ON DELETE SET NULL ON UPDATE CASCADE;

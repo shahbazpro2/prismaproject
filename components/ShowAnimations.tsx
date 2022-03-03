@@ -53,11 +53,11 @@ const ShowAnimations = () => {
             </div>
             <div className='grid grid-cols-4 gap-3'>
                 {animations?.map((animation: any) => (
-                    <div key={animation.id} className="border min-h-[300px] px-5 py-3">
+                    <div key={animation?.animation?.id} className="border min-h-[300px] px-5 py-3">
                         <Player
                             autoplay
                             loop
-                            src={animation.path}
+                            src={`/uploads/${animation?.animation.path}`}
                             style={{ height: '200px', width: '200px' }}
                         >
                             <Controls visible={true} buttons={['play', 'repeat', 'frame', 'debug']} />
@@ -66,20 +66,20 @@ const ShowAnimations = () => {
                             <div className="flex justify-between">
                                 <div className="flex space-x-2">
                                     <div className="text-lg font-medium">Title: </div>
-                                    <div className="text-lg">{animation.title}</div>
+                                    <div className="text-lg">{animation?.animation?.title}</div>
                                 </div>
                                 <div className="flex space-x-2">
                                     <div className="text-lg font-medium">User: </div>
-                                    <div className="text-lg">{animation.user.name}</div>
+                                    <div className="text-lg">{animation?.animation?.user?.name}</div>
                                 </div>
                                 <div className="flex space-x-2">
                                     <div className="text-lg font-medium">Tag: </div>
-                                    <div className="text-lg">{animation.tag.name}</div>
+                                    <div className="text-lg">{animation?.tag?.name}</div>
                                 </div>
                             </div>
                             <div className="mt-2">
                                 <div className="text-lg font-medium">Description</div>
-                                {animation.description}
+                                {animation?.animation?.description}
                             </div>
                         </div>
                     </div>

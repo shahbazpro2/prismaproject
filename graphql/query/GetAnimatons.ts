@@ -3,6 +3,7 @@ import { gql } from "@apollo/client";
 export const GET_ANIMATIONS = gql`
   query getAnimations {
     getAnimations {
+      animation{
       id
       user{
       name
@@ -10,7 +11,8 @@ export const GET_ANIMATIONS = gql`
       title
       path
       description
-      tags{
+    }
+      tag{
       id
       name
       }
