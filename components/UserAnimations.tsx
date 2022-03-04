@@ -8,23 +8,29 @@ import Button from './common/buttons/Button';
 import { GET_ANIMATIONS } from '../graphql/query/GetAnimatons';
 import Modal from './common/Modal';
 import AddAnimation from './AddAnimation';
+import AnimationCards from './common/AnimationCards';
+import { GET_ANIMATIONS_BY_USER } from '../graphql/query/GetAnimaitonsByUser';
+import { useRouter } from 'next/router';
 
 const UserAnimations = () => {
-    const [getAnimations, { data, loading, refetch }] = useLazyQuery(GET_ANIMATIONS)
+    const [getAnimations, { data, loading, refetch }] = useLazyQuery(GET_ANIMATIONS_BY_USER)
     const [getAnimationsByTag, { data: searchData, loading: searchLoading }] = useLazyQuery(GET_ANIMATIONS_BY_TAG)
     const [animations, setAnimations] = useState([])
     const [search, setSearch] = useState('')
     const [open, setOpen] = useState(false)
+    const router = useRouter()
+    const id = router?.query?.id
 
     useEffect(() => {
-        getAnimations()
-    }, [])
+        if (id)
+            getAnimations({ variables: { id: Number(id) } })
+    }, [id])
 
     useEffect(() => {
         if (searchData?.getAnimationsByTag?.length || search) {
             setAnimations(searchData?.getAnimationsByTag || [])
-        } else if (data?.getAnimations?.length) {
-            setAnimations(data?.getAnimations || [])
+        } else if (data?.getAnimationsByUser?.length) {
+            setAnimations(data?.getAnimationsByUser || [])
         }
     }, [data, searchData])
 
@@ -33,7 +39,7 @@ const UserAnimations = () => {
             if (search) {
                 getAnimationsByTag({ variables: { name: search } })
             } else {
-                if (data?.getAnimations?.length) setAnimations(data?.getAnimations)
+                if (data?.getAnimationsByUser?.length) setAnimations(data?.getAnimationsByUser)
             }
         }, 500)
 
@@ -53,42 +59,11 @@ const UserAnimations = () => {
                     <Button onClick={() => setOpen(true)}>Upload a new lottie</Button>
                 </div>
             </div>
-            <div className='grid grid-cols-4 gap-3'>
-                {animations?.map((animation: any) => (
-                    <div key={animation?.animation?.id} className="border min-h-[300px] px-5 py-3">
-                        <Player
-                            autoplay
-                            loop
-                            src={`/uploads/${animation?.animation?.path}`}
-                            style={{ height: '200px', width: '200px' }}
-                        >
-                            <Controls visible={true} buttons={['play', 'repeat', 'frame', 'debug']} />
-                        </Player>
-                        <div className="mt-5">
-                            <div className="flex justify-between">
-                                <div className="flex space-x-2">
-                                    <div className="text-lg font-medium">Title: </div>
-                                    <div className="text-lg">{animation?.animation?.title}</div>
-                                </div>
-                                <div className="flex space-x-2">
-                                    <div className="text-lg font-medium">User: </div>
-                                    <div className="text-lg">{animation?.animation?.user.name}</div>
-                                </div>
-                                <div className="flex space-x-2">
-                                    <div className="text-lg font-medium">Tag: </div>
-                                    <div className="text-lg">{animation?.tag?.name}</div>
-                                </div>
-                            </div>
-                            <div className="mt-2">
-                                <div className="text-lg font-medium">Description</div>
-                                {animation?.animation?.description}
-                            </div>
-                        </div>
-                    </div>
-
-                ))}
-
-            </div>
+            {animations.length > 0 ?
+                <AnimationCards animations={animations} /> :
+                search ? <h2>No search animations available</h2> :
+                    <h2>No animations available for this user</h2>
+            }
             <Modal open={open} setOpen={setOpen}>
                 <AddAnimation setOpen={() => setOpen(false)} refetch={refetch} />
             </Modal>

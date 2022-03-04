@@ -9,6 +9,7 @@ import { GET_USERS } from '../graphql/query/GetUsers'
 import { useLazyQuery } from '@apollo/client'
 import { GET_TAGS } from '../graphql/query/GetTags'
 import axios from 'axios'
+import { useRouter } from 'next/router';
 
 interface Props {
     setOpen: () => void,
@@ -21,6 +22,8 @@ const AddAnimation = ({ setOpen, refetch }: Props) => {
     const [tags, setTags] = useState([]);
     const [tagOptions, setTagOptions] = useState([])
     const { acceptedFiles, getRootProps, getInputProps } = useDropzone({ multiple: false, accept: '.json', maxFiles: 1 });
+    const router = useRouter()
+    const id = router?.query?.id
 
     const [state, setState] = useState({
         userId: '',
@@ -56,14 +59,16 @@ const AddAnimation = ({ setOpen, refetch }: Props) => {
         formData.append("file", acceptedFiles[0])
         formData.append("title", state.title)
         formData.append("description", state.description)
+        formData.append("userId", String(id))
 
         formData.append("tags", JSON.stringify(formatedTags))
 
         axios.post("/api/animation", formData)
             .then(res => {
                 console.log('res', res.data)
-                if (refetch)
-                    refetch()
+                setTimeout(() => {
+                    window.location.reload()
+                }, 300)
                 alert('Animation added successfully')
                 setOpen()
 
@@ -72,7 +77,6 @@ const AddAnimation = ({ setOpen, refetch }: Props) => {
 
     }
 
-    console.log('tags', tagsData)
     return (
         <div>
             <h2 className='mb-10'>Add Lottie</h2>
